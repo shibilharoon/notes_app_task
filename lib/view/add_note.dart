@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app_task/service/firebase_service.dart';
 
 class AddNote extends StatefulWidget {
-  const AddNote({Key? key}) : super(key: key);
+  AddNote({Key? key}) : super(key: key);
 
   @override
   _AddNoteState createState() => _AddNoteState();
 }
 
+TextEditingController titleController = TextEditingController();
+TextEditingController notesController = TextEditingController();
+
 class _AddNoteState extends State<AddNote> {
-  String _selectedColor = 'Red'; 
+  String _selectedColor = 'Red';
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,7 @@ class _AddNoteState extends State<AddNote> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: TextFormField(
+                controller: titleController,
                 style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Enter Note Title",
@@ -56,13 +61,13 @@ class _AddNoteState extends State<AddNote> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: TextField(
+              child: TextFormField(
+                controller: notesController,
                 style: TextStyle(color: Colors.black),
                 maxLines: 13,
                 decoration: InputDecoration(
                   hintText: "Enter your note here",
-                  hintStyle:
-                      TextStyle(color: const Color.fromARGB(179, 0, 0, 0)),
+                  hintStyle: TextStyle(color: Color.fromARGB(179, 36, 2, 2)),
                   prefixIcon: Icon(Icons.notes, color: Colors.white70),
                   filled: true,
                   fillColor: Colors.white,
@@ -103,7 +108,9 @@ class _AddNoteState extends State<AddNote> {
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 60, right: 60),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  addNotes(context);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 255, 255, 255),
                   shape: RoundedRectangleBorder(
@@ -124,5 +131,18 @@ class _AddNoteState extends State<AddNote> {
         ),
       ),
     );
+  }
+
+  addNotes(BuildContext context) {
+    final title = titleController.text;
+    final notes = notesController.text;
+    if (title.isNotEmpty && notes.isNotEmpty) {
+      FireStoreService().addNotes(title: title, note: notes);
+      
+    } else {
+      ScaffoldMessenger.maybeOf(context)!
+          .showSnackBar(SnackBar(content: Text('Empty')));
+    }
+    Navigator.pop(context);
   }
 }

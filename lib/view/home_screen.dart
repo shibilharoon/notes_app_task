@@ -20,11 +20,6 @@ class HomeScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            // child: IconButton(
-            //   onPressed: () {},
-            //   icon: Icon(Icons.add),
-            //   color: Colors.white,
-            // ),
             child: Container(
               height: 60,
               width: 60,

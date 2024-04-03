@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app_task/controllers/auth_provider.dart';
 import 'package:notes_app_task/firebase_options.dart';
+import 'package:notes_app_task/view/auth_gate.dart';
 import 'package:notes_app_task/view/home_screen.dart';
 import 'package:notes_app_task/view/login_page.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       providers: [ChangeNotifierProvider(create: (context) => AuthProviders())],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: LoginPage(),
+        home:AuthGate (),
       ),
     );
   }
